@@ -1,4 +1,3 @@
 rootProject.name = 'lu-pang'
-include 'payment'
-include 'search'
+include 'api'
 
