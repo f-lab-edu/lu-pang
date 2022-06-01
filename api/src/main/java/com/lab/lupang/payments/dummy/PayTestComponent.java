@@ -1,6 +1,8 @@
 package com.lab.lupang.payments.dummy;
 
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lab.lupang.payments.domain.PayVO;
 import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
@@ -9,12 +11,25 @@ public class PayTestComponent {
 
     // 카드 사용
     public String useCard(HashMap<String, String> params) {
-        JsonObject obj = new JsonObject();
-        obj.addProperty("pg_tr_id",    "pg_tr_id");     // 1. 거래번호
-        obj.addProperty("req_amount",  params.get("amount")); // 2. 결제금액
-        obj.addProperty("ret_code",    "0000");         // 3. 응답코드
-        obj.addProperty("ret_msg",     "SUCCESS");      // 4. 응답메시지
-        return obj.toString();
+        String jsonToString = "";
+
+        // 1. 테스트 리턴 데이터 생성.
+        PayVO vo = new PayVO();
+        vo.setPg_tr_id("거래번호");
+        vo.setReq_amount(params.get("amount"));
+        vo.setRet_code("0000");
+        vo.setRet_msg("SUCCESS");
+
+        try{
+            // 2.Object -> Json 변환
+            ObjectMapper mapper = new ObjectMapper();
+            jsonToString = mapper.writeValueAsString(vo);
+        }catch (JsonProcessingException jse) {
+            jse.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonToString;
     }
 
 }
