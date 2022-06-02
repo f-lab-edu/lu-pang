@@ -1,7 +1,7 @@
 package com.lab.lupang.payments.pay.repository;
 
-import java.util.HashMap;
+import com.lab.lupang.payments.domain.PayDTO;
 
 public interface RequestPayRepository {
-    public String usePay(HashMap<String, String> params);
+    public String usePay(PayDTO payDto);
 }

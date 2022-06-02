@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class PayVO {
     private String pg_tr_id;    // 1. 거래번호
-    private String req_amount;  // 2. 결제금액
+    private int req_amount;     // 2. 결제금액
     private String ret_code;    // 3. 응답코드
     private String ret_msg;     // 4. 응답메시지
 
@@ -16,11 +16,11 @@ public class PayVO {
         this.pg_tr_id = pg_tr_id;
     }
 
-    public String getReq_amount() {
+    public int getReq_amount() {
         return req_amount;
     }
 
-    public void setReq_amount(String req_amount) {
+    public void setReq_amount(int req_amount) {
         this.req_amount = req_amount;
     }
 
