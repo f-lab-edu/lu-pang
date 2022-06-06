@@ -4,7 +4,13 @@ plugins {
     id 'java'
 }
 
-group = 'com.lab'
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+group = 'com.lab.lupang'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -15,8 +21,13 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.google.code.gson:gson'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
-    //useJUnitPlatform()
+    useJUnitPlatform()
 }
