@@ -1,25 +1,26 @@
-package com.lab.lupang.search;
+package com.lab.lupang.search.service;
 
+import com.lab.lupang.search.domain.SearchDTO;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
-
+@Component
 public class Indexer {
-    public String add(String title) {
+    @Autowired
+    private DirectoryManager directoryManager;
+
+    public String add(SearchDTO searchDTO) {
         try {
-            File file = new File("src/main/java/resources/index");
-            Directory directory = FSDirectory.open(file.toPath());
-            IndexWriter indexWriter = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()));
+            IndexWriter indexWriter = new IndexWriter(directoryManager.getDirectory(), new IndexWriterConfig(new StandardAnalyzer()));
 
             Document document = new Document();
-            document.add(new StringField("title", title, Field.Store.YES));
+            document.add(new StringField("title", searchDTO.getTitle(), Field.Store.YES));
             indexWriter.addDocument(document);
             indexWriter.commit();
             indexWriter.close();
