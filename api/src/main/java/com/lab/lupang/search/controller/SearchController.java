@@ -1,35 +1,29 @@
-package com.lab.lupang.search;
+package com.lab.lupang.search.controller;
 
+import com.lab.lupang.search.domain.SearchDTO;
+import com.lab.lupang.search.service.IndexService;
+import com.lab.lupang.search.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/search")
-class SearchController {
+public class SearchController {
+    @Autowired
+    private IndexService indexService;
 
     @Autowired
-    private Indexer indexer;
-    @Autowired
-    private Searcher searcher;
+    private SearchService searchService;
 
-    @GetMapping("{title}")
-    public ResponseEntity getList(@PathVariable String title) {
-        indexer = new Indexer();
-        indexer.add("test");
-        return new ResponseEntity(indexer.add(title), HttpStatus.OK);
+    @PostMapping("")
+    public String create(SearchDTO searchDto) {
+        return indexService.add(searchDto);
     }
 
     @GetMapping("")
-    public ResponseEntity getList() {
-        searcher = new Searcher();
-        return new ResponseEntity(searcher.getAll(), HttpStatus.OK);
-    }
-
-    @PostMapping("")
-    public ResponseEntity getList() {
-        searcher = new Searcher();
-        return new ResponseEntity(searcher.getAll(), HttpStatus.OK);
+    public List<SearchDTO> getList() {
+        return searchService.getAll();
     }
 }

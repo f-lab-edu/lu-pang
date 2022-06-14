@@ -8,19 +8,19 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class Indexer {
+@Service
+public class IndexService {
     @Autowired
     private DirectoryManager directoryManager;
 
-    public String add(SearchDTO searchDTO) {
+    public String add(SearchDTO searchDto) {
         try {
             IndexWriter indexWriter = new IndexWriter(directoryManager.getDirectory(), new IndexWriterConfig(new StandardAnalyzer()));
 
             Document document = new Document();
-            document.add(new StringField("title", searchDTO.getTitle(), Field.Store.YES));
+            document.add(new StringField("title", searchDto.getTitle(), Field.Store.YES));
             indexWriter.addDocument(document);
             indexWriter.commit();
             indexWriter.close();
