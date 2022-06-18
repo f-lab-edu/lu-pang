@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lab.lupang.payments.domain.PayDTO;
 import com.lab.lupang.payments.domain.PayVO;
 import com.lab.lupang.payments.dummy.PayTestComponent;
-import com.lab.lupang.payments.pay.repository.RequestDummyRepository;
+import com.lab.lupang.payments.pay.repository.PayRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,13 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PayServiceTest {
 
-    RequestDummyRepository requestDummyRepository;
+    PayRepository payRepository;
     PayService payService;
 
     @BeforeEach
     void setUp() {
-        requestDummyRepository = new RequestDummyRepository(new PayTestComponent());
-        payService             = new PayService(requestDummyRepository);
+        payRepository = new PayRepository(new PayTestComponent());
+        payService  = new PayService(payRepository);
     }
 
     @Test

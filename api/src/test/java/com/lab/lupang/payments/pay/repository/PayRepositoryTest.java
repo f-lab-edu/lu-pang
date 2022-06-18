@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RequestDummyRepositoryTest {
+class PayRepositoryTest {
 
-    RequestDummyRepository requestDummyRepository = new RequestDummyRepository(new PayTestComponent());
+    PayRepository payRepository = new PayRepository(new PayTestComponent());
 
     @Test
     public void usePay() {
@@ -24,7 +24,7 @@ class RequestDummyRepositoryTest {
         dto.setFailUrl("http://127.0.0.1:8080/fail_url");
 
         // 2. 결제요청
-        String resJsonData = requestDummyRepository.usePay(dto);
+        String resJsonData = payRepository.usePay(dto);
 
         // 3. 요청결과 맵핑
         PayVO payVo = new PayVO();

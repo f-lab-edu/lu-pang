@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class RequestDummyRepository implements RequestPayRepository{
+public class PayRepository {
     private final PayTestComponent payTestComponent;
 
-    @Override
     public String usePay(PayDTO payDto) {
         return payTestComponent.useCard(payDto);
     }

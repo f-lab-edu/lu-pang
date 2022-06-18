@@ -1,18 +1,16 @@
 package com.lab.lupang.payments.pay.service;
 
 import com.lab.lupang.payments.domain.PayDTO;
-import com.lab.lupang.payments.pay.repository.RequestDummyRepository;
-import com.lab.lupang.payments.pay.repository.RequestPayRepository;
+import com.lab.lupang.payments.pay.repository.PayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
 
 @RequiredArgsConstructor
 @Service
 public class PayService {
-    private final RequestPayRepository requestPayRepository;
+    private final PayRepository payRepository;
 
     public String requestPay(PayDTO payDTO) {
-        return requestPayRepository.usePay(payDTO);
+        return payRepository.usePay(payDTO);
     }
 }
