@@ -11,6 +11,8 @@ public class PayService {
     private final PayRepository payRepository;
 
     public String requestPay(PayDTO payDTO) {
+        // 1. 금액체크
+        // 2. 주문번호체크
         return payRepository.usePay(payDTO);
     }
 }
