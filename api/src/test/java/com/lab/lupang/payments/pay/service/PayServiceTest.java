@@ -7,6 +7,7 @@ import com.lab.lupang.payments.domain.PayVO;
 import com.lab.lupang.payments.dummy.PayTestComponent;
 import com.lab.lupang.payments.pay.repository.PayRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,33 +20,52 @@ class PayServiceTest {
     @BeforeEach
     void setUp() {
         payRepository = new PayRepository(new PayTestComponent());
-        payService  = new PayService(payRepository);
+        payService    = new PayService(payRepository);
     }
 
-    @Test
-    void requestPay() {
-        // 1. 파라미터설정.
+    // 결제요청 파라미터 세팅 (고정)
+    PayDTO makeParameters() {
         PayDTO dto = new PayDTO();
         dto.setAmount(5000);
         dto.setOrderId("id000001");
         dto.setOrderName("탁상시계");
         dto.setSuccessUrl("http://127.0.0.1:8080/success_url");
         dto.setFailUrl("http://127.0.0.1:8080/fail_url");
+        return dto;
+    }
 
-        // 2. 결제요청처리
-        String returnJson = payService.requestPay(dto);
-
-        // 3. 결제응답
-        PayVO payVo = new PayVO();
+    // 응답값 파싱 (VO)
+    PayVO getJsonDataParseToVo(String jsonData, PayVO vo) {
         try{
             // 3-1. Object -> Json 변환
             ObjectMapper mapper = new ObjectMapper();
-            payVo = mapper.readValue(returnJson, PayVO.class);
+            vo = mapper.readValue(jsonData, vo.getClass());
         }catch (JsonProcessingException jse) {
             jse.printStackTrace();
         }catch (Exception e) {
             e.printStackTrace();
         }
+        return vo;
+    }
+
+    @Test
+    @DisplayName("결제성공")
+    void requestPay_success() {
+        // 2. 결제요청처리
+        String returnJson = payService.requestPay(makeParameters());
+        // 3. 결제응답
+        PayVO payVo = getJsonDataParseToVo(returnJson, new PayVO());
         assertThat(payVo.getRet_code()).isEqualTo("0000");
     }
+
+    @Test
+    @DisplayName("결제실패")
+    void requestPay_fail() {
+        // 2. 결제요청처리
+        String returnJson = payService.requestPay(makeParameters());
+        // 3. 결제응답
+        PayVO payVo = getJsonDataParseToVo(returnJson, new PayVO());
+        assertThat(payVo.getRet_code()).isEqualTo("9999");
+    }
+
 }
